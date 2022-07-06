@@ -1,0 +1,4 @@
+https://github.com/formcept/whiteboard/tree/master/nbviewer/notebooks/data/harrypotter
+
+https://tedboy.github.io/nlps/_modules/nltk/probability.html#entropy
+
