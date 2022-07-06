@@ -2,3 +2,6 @@ https://github.com/formcept/whiteboard/tree/master/nbviewer/notebooks/data/harry
 
 https://tedboy.github.io/nlps/_modules/nltk/probability.html#entropy
 
+https://www.mathworks.com/help/matlab/ref/plot.html
+
+https://matplotlib.org/stable/tutorials/introductory/pyplot.html
