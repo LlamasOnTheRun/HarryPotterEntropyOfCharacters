@@ -10,14 +10,20 @@ def entropy(labels):
     return -sum(p * math.log(p, 2) for p in probs)  # Calculates entropy for set
 
 
-def main():
-    wordSet = []
-    for i in range(0, 10): wordSet.append("Cats")
-    for i in range(0, 14): wordSet.append("Dogs")
-    for i in range(0, 7): wordSet.append("Lions")
+def tokenize_harry_potter_book_philosopher_stone_for_character_names():
+    return
 
-    print(entropy(wordSet))
+
+def tokenize_harry_potter_book_chamber_of_secrets_for_character_names():
+    return
+
+
+def get_harry_potter_characters():
+    harryPotterCharacterNamesFile = open("harry_potter_characters.txt", "r")
+    return harryPotterCharacterNamesFile.read().splitlines()
+
+
+def main():
     plt.show()
 
-
-#main()
+# main()

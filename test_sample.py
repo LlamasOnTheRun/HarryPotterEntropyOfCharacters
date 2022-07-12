@@ -13,3 +13,9 @@ def test_entropy_with_word_set_of_three_words():
     assert entropyValue == 1.529237139029349
 
 
+def test_list_of_harry_potter_characters():
+
+    harryPotterCharacters = main.get_harry_potter_characters()
+
+    assert harryPotterCharacters.__sizeof__() > 0
+    assert harryPotterCharacters.count("Harry") == 1
