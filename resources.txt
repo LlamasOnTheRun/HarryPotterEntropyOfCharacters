@@ -7,3 +7,6 @@ https://www.mathworks.com/help/matlab/ref/plot.html
 https://matplotlib.org/stable/tutorials/introductory/pyplot.html
 
 https://www.guru99.com/pytest-tutorial.html
+
+Todo use this resource to get characters in text dynamically
+https://home.aveek.io/blog/post/finding-main-characters/
