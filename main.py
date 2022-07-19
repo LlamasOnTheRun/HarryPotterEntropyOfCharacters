@@ -4,16 +4,27 @@ import matplotlib.pyplot as plt
 import requests
 
 
-def entropy(names):
+class FreqDistTracker:
+    def __init__(self, names, probs):
+        self.names = names
+        self.probs = probs
+
+
+def entropy(freqDistributionTracker):
+    return -sum(p * math.log(p, 2) for p in freqDistributionTracker.probs)  # Calculates entropy for set
+
+
+def get_frequency_dist_tracker(names):
     freqDistOfNames = nltk.FreqDist(names)  # Will count symbols in a set
     names = [name for name in freqDistOfNames]
     probs = [freqDistOfNames.freq(name) for name in freqDistOfNames]  # Will calculate the probability of said count
+    return FreqDistTracker(names, probs)
 
-    plt.bar(names, probs)
+
+def graph_frequency_dist(freqDistributionTracker):
+    plt.bar(freqDistributionTracker.names, freqDistributionTracker.probs)
     plt.xticks(rotation=60)
     plt.show()
-
-    return -sum(p * math.log(p, 2) for p in probs)  # Calculates entropy for set
 
 
 def tokenize_harry_potter_book_philosopher_stone():
@@ -52,9 +63,18 @@ def get_regex_for_all_characters():
     return regexForAllCharacterNames[:-1]
 
 
+#def huffman_encoding(names, probabilities):
+#    return listOfEncodingsForEachSymbol
+
+
 def main():
-    print(entropy(tokenize_harry_potter_book_philosopher_stone()))
-    print(entropy(tokenize_harry_potter_book_chamber_of_secrets()))
+    frequencyDistTrackerForPhilosopherStone = get_frequency_dist_tracker(tokenize_harry_potter_book_philosopher_stone())
+    graph_frequency_dist(frequencyDistTrackerForPhilosopherStone)
+    print("Entropy of characters from \"Philosophers Stone\": " + str(entropy(frequencyDistTrackerForPhilosopherStone)))
+
+    frequencyDistTrackerForChamberOfSecrets = get_frequency_dist_tracker(tokenize_harry_potter_book_chamber_of_secrets())
+    graph_frequency_dist(frequencyDistTrackerForChamberOfSecrets)
+    print("Entropy of characters from \"Chamber of Secrets\": " + str(entropy(frequencyDistTrackerForChamberOfSecrets)))
 
 
 main()

@@ -8,7 +8,7 @@ def test_entropy_with_word_set_of_three_words():
     for i in range(0, 14): wordSet.append("Dogs")
     for i in range(0, 7): wordSet.append("Lions")
 
-    entropyValue = main.entropy(wordSet)
+    entropyValue = main.entropy(main.get_frequency_dist_tracker(wordSet))
 
     assert entropyValue == 1.529237139029349
 
