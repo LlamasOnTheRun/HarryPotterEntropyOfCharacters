@@ -8,5 +8,8 @@ https://matplotlib.org/stable/tutorials/introductory/pyplot.html
 
 https://www.guru99.com/pytest-tutorial.html
 
-Todo use this resource to get characters in text dynamically
 https://home.aveek.io/blog/post/finding-main-characters/
+
+https://riptutorial.com/algorithm/example/23995/huffman-coding
+
+https://pythonguides.com/priority-queue-in-python/

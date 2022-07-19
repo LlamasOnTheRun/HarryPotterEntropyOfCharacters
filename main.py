@@ -10,6 +10,14 @@ class FreqDistTracker:
         self.probs = probs
 
 
+class HuffmanNode:
+    def __init__(self, left, right, symbol, probability):
+        self.symbol = symbol
+        self.probability = probability
+        self.left = left
+        self.right = right
+
+
 def entropy(freqDistributionTracker):
     return -sum(p * math.log(p, 2) for p in freqDistributionTracker.probs)  # Calculates entropy for set
 
@@ -63,13 +71,19 @@ def get_regex_for_all_characters():
     return regexForAllCharacterNames[:-1]
 
 
-#def huffman_encoding(names, probabilities):
-#    return listOfEncodingsForEachSymbol
+def huffman_encoding(freqDistributionTracker):
+    names = freqDistributionTracker.names
+    names.reverse()
+    probs = freqDistributionTracker.probs
+    probs.reverse()
+
+    return listOfEncodingsForEachSymbol
 
 
 def main():
     frequencyDistTrackerForPhilosopherStone = get_frequency_dist_tracker(tokenize_harry_potter_book_philosopher_stone())
     graph_frequency_dist(frequencyDistTrackerForPhilosopherStone)
+    huffman_encoding(frequencyDistTrackerForPhilosopherStone)
     print("Entropy of characters from \"Philosophers Stone\": " + str(entropy(frequencyDistTrackerForPhilosopherStone)))
 
     frequencyDistTrackerForChamberOfSecrets = get_frequency_dist_tracker(tokenize_harry_potter_book_chamber_of_secrets())
