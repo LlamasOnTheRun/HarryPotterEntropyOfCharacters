@@ -13,3 +13,7 @@ https://home.aveek.io/blog/post/finding-main-characters/
 https://riptutorial.com/algorithm/example/23995/huffman-coding
 
 https://pythonguides.com/priority-queue-in-python/
+
+https://networkx.org/documentation/stable/index.html
+
+https://stackoverflow.com/questions/11479624/is-there-a-way-to-guarantee-hierarchical-output-from-networkx/11484144#11484144

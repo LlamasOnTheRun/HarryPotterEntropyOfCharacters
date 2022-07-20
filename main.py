@@ -3,6 +3,8 @@ import nltk
 import matplotlib.pyplot as plt
 import requests
 import copy
+import networkx as nx
+from networkx.drawing.nx_pydot import graphviz_layout, write_dot
 
 
 class FreqDistTracker:
@@ -102,10 +104,29 @@ def print_huffman_encodings_for_symbols(huffmanTreeNode, binaryCode):
     return
 
 
+def print_graph_for_huffman_tree(huffmanTreeNode, graph):
+    graph.add_node(huffmanTreeNode.symbol)
+    if huffmanTreeNode.left is not None:
+        graph.add_edge(huffmanTreeNode.symbol, huffmanTreeNode.left.symbol)
+        print_graph_for_huffman_tree(huffmanTreeNode.left, graph)
+    if huffmanTreeNode.right is not None:
+        graph.add_edge(huffmanTreeNode.symbol, huffmanTreeNode.right.symbol)
+        print_graph_for_huffman_tree(huffmanTreeNode.right, graph)
+    if huffmanTreeNode.left is None and huffmanTreeNode.right is None:
+        pass
+    return
+
+
 def perform_huffman_coding(descendingFreqDistributionTracker):
     huffmanLeafNodes = descendingFreqDistributionTracker.convert_to_huffman_leaf_nodes()
     huffmanTree = build_huffman_encoding_tree(huffmanLeafNodes)
     print_huffman_encodings_for_symbols(huffmanTree[0], "")
+    G = nx.DiGraph()
+    print_graph_for_huffman_tree(huffmanTree[0], G)
+    write_dot(G, 'test.dot')
+    pos = graphviz_layout(G, prog='dot')
+    nx.draw(G, pos, with_labels=True, arrows=True)
+    plt.show()
 
     return "listOfEncodingsForEachSymbol"
 
@@ -131,6 +152,7 @@ def build_huffman_encoding_tree(huffmanLeafNodes):
 
 
 def main():
+
     print("******************************* Philosophers Stone Data *******************************")
     frequencyDistTrackerForPhilosopherStone = get_frequency_dist_tracker(tokenize_harry_potter_book_philosopher_stone())
     print("Entropy of characters from \"Philosophers Stone\": " + str(entropy(frequencyDistTrackerForPhilosopherStone)))
