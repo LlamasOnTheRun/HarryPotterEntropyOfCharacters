@@ -2,6 +2,7 @@ import math
 import nltk
 import matplotlib.pyplot as plt
 import requests
+import copy
 
 
 class FreqDistTracker:
@@ -9,12 +10,30 @@ class FreqDistTracker:
         self.names = names
         self.probs = probs
 
+    def reverse(self):
+        newFreqDistTracker = copy.deepcopy(self)
+        newFreqDistTracker.names.reverse()
+        newFreqDistTracker.probs.reverse()
+        return newFreqDistTracker
+
+    def convert_to_huffman_leaf_nodes(self):
+        huffmanNodeList = []
+        for i in range(len(self.probs)):
+            huffmanNodeList.append(HuffmanNode(self.names[i], self.probs[i]))
+        return huffmanNodeList
+
 
 class HuffmanNode:
-    def __init__(self, left, right, symbol, probability):
+    def __init__(self, symbol, probabilitySum):
         self.symbol = symbol
-        self.probability = probability
+        self.probabilitySum = probabilitySum
+        self.left = None
+        self.right = None
+
+    def set_left(self, left):
         self.left = left
+
+    def set_right(self, right):
         self.right = right
 
 
@@ -71,22 +90,41 @@ def get_regex_for_all_characters():
     return regexForAllCharacterNames[:-1]
 
 
-def huffman_encoding(freqDistributionTracker):
-    names = freqDistributionTracker.names
-    names.reverse()
-    probs = freqDistributionTracker.probs
-    probs.reverse()
+def perform_huffman_coding(descendingFreqDistributionTracker):
+    huffmanLeafNodes = descendingFreqDistributionTracker.convert_to_huffman_leaf_nodes()
+    huffmanTree = get_huffman_encoding_tree(huffmanLeafNodes)
 
-    return listOfEncodingsForEachSymbol
+    return "listOfEncodingsForEachSymbol"
+
+
+def get_huffman_encoding_tree(huffmanLeafNodes):
+    huffmanTree = copy.copy(huffmanLeafNodes)
+    while len(huffmanTree) != 1:
+        rightNode = huffmanTree.pop()
+        leftNode = huffmanTree.pop()
+
+        newProbabilitySum = leftNode.probabilitySum + rightNode.probabilitySum
+        newParentNode = HuffmanNode(str(newProbabilitySum), newProbabilitySum)
+        newParentNode.left = leftNode
+        newParentNode.right = rightNode
+
+        index = huffmanTree.__len__() - 1
+        while index >= 0 and huffmanTree[index].probabilitySum < newParentNode.probabilitySum:
+            index = index - 1
+
+        huffmanTree.insert(index + 1, newParentNode)
+
+    return huffmanTree
 
 
 def main():
     frequencyDistTrackerForPhilosopherStone = get_frequency_dist_tracker(tokenize_harry_potter_book_philosopher_stone())
     graph_frequency_dist(frequencyDistTrackerForPhilosopherStone)
-    huffman_encoding(frequencyDistTrackerForPhilosopherStone)
+    perform_huffman_coding(frequencyDistTrackerForPhilosopherStone)
     print("Entropy of characters from \"Philosophers Stone\": " + str(entropy(frequencyDistTrackerForPhilosopherStone)))
 
-    frequencyDistTrackerForChamberOfSecrets = get_frequency_dist_tracker(tokenize_harry_potter_book_chamber_of_secrets())
+    frequencyDistTrackerForChamberOfSecrets = get_frequency_dist_tracker(
+        tokenize_harry_potter_book_chamber_of_secrets())
     graph_frequency_dist(frequencyDistTrackerForChamberOfSecrets)
     print("Entropy of characters from \"Chamber of Secrets\": " + str(entropy(frequencyDistTrackerForChamberOfSecrets)))
 

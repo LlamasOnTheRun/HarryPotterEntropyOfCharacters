@@ -34,3 +34,45 @@ def test_text_of_harry_potter_chamber_of_secret():
     assert tokenizedCharacters.__len__() > 0
     assert tokenizedCharacters.count("Harry") > 10
     assert list(set(tokenizedCharacters)).__len__() == 28
+
+
+def test_class_freqdisttracker_reverse():
+    names = ["Ryan", "Saul", "Jacob", "Jean"]
+    probs = [.35, .25, .20, .10]
+
+    freqDistTracker = main.FreqDistTracker(names, probs)
+    reversedFreqDistTracker = freqDistTracker.reverse()
+
+    assert freqDistTracker.names.__eq__(names)
+    assert freqDistTracker.probs.__eq__(probs)
+
+    names.reverse()
+    probs.reverse()
+    assert reversedFreqDistTracker.names.__eq__(names) is True
+    assert reversedFreqDistTracker.probs.__eq__(probs) is True
+
+
+def test_class_freqdisttracker_huffman_node_conversion():
+    names = ["Ryan", "Saul", "Jacob", "Jean"]
+    probs = [.35, .25, .20, .20]
+
+    freqDistTracker = main.FreqDistTracker(names, probs)
+
+    huffmanLeafNodes = freqDistTracker.convert_to_huffman_leaf_nodes()
+    huffmanNames = [node.symbol for node in huffmanLeafNodes]
+    huffmanProbs = [node.probabilitySum for node in huffmanLeafNodes]
+
+    assert names.__eq__(huffmanNames)
+    assert probs.__eq__(huffmanProbs)
+
+
+def test_huffman_encoding_tree_is_valid_with_descending_frequency():
+    names = ["Ryan", "Saul", "Jacob", "Jean", "Katie"]
+    probs = [.35, .25, .20, .10, .10]
+
+    freqDistTracker = main.FreqDistTracker(names, probs)
+    huffmanTree = main.get_huffman_encoding_tree(freqDistTracker.convert_to_huffman_leaf_nodes())
+
+    assert huffmanTree[0].probabilitySum == 1.0
+    assert huffmanTree[0].left.left.probabilitySum == .35
+    assert huffmanTree[0].right.right.right.probabilitySum == .10
