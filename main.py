@@ -90,14 +90,28 @@ def get_regex_for_all_characters():
     return regexForAllCharacterNames[:-1]
 
 
+def get_huffman_encodings_for_symbols(huffmanTreeNode, binaryCode):
+    if huffmanTreeNode.left is not None:
+        get_huffman_encodings_for_symbols(huffmanTreeNode.left, binaryCode + "0")
+    if huffmanTreeNode.right is not None:
+        get_huffman_encodings_for_symbols(huffmanTreeNode.right, binaryCode + "1")
+
+    if huffmanTreeNode.left is None and huffmanTreeNode.right is None:
+        print("Binary for Symbol " + huffmanTreeNode.symbol +
+              " with probability " + str(huffmanTreeNode.probabilitySum * 100.0) + "%" +
+              " is: " + binaryCode)
+    return
+
+
 def perform_huffman_coding(descendingFreqDistributionTracker):
     huffmanLeafNodes = descendingFreqDistributionTracker.convert_to_huffman_leaf_nodes()
-    huffmanTree = get_huffman_encoding_tree(huffmanLeafNodes)
+    huffmanTree = build_huffman_encoding_tree(huffmanLeafNodes)
+    get_huffman_encodings_for_symbols(huffmanTree[0], "")
 
     return "listOfEncodingsForEachSymbol"
 
 
-def get_huffman_encoding_tree(huffmanLeafNodes):
+def build_huffman_encoding_tree(huffmanLeafNodes):
     huffmanTree = copy.copy(huffmanLeafNodes)
     while len(huffmanTree) != 1:
         rightNode = huffmanTree.pop()

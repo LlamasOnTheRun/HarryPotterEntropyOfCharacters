@@ -71,7 +71,7 @@ def test_huffman_encoding_tree_is_valid_with_descending_frequency():
     probs = [.35, .25, .20, .10, .10]
 
     freqDistTracker = main.FreqDistTracker(names, probs)
-    huffmanTree = main.get_huffman_encoding_tree(freqDistTracker.convert_to_huffman_leaf_nodes())
+    huffmanTree = main.build_huffman_encoding_tree(freqDistTracker.convert_to_huffman_leaf_nodes())
 
     assert huffmanTree[0].probabilitySum == 1.0
     assert huffmanTree[0].left.left.probabilitySum == .35
