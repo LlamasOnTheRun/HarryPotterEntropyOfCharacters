@@ -133,16 +133,15 @@ def build_huffman_encoding_tree(huffmanLeafNodes):
 def main():
     print("******************************* Philosophers Stone Data *******************************")
     frequencyDistTrackerForPhilosopherStone = get_frequency_dist_tracker(tokenize_harry_potter_book_philosopher_stone())
+    print("Entropy of characters from \"Philosophers Stone\": " + str(entropy(frequencyDistTrackerForPhilosopherStone)))
     graph_frequency_dist(frequencyDistTrackerForPhilosopherStone)
     perform_huffman_coding(frequencyDistTrackerForPhilosopherStone)
-    print("Entropy of characters from \"Philosophers Stone\": " + str(entropy(frequencyDistTrackerForPhilosopherStone)))
 
     print("\n******************************* Chamber of Secrets Data *******************************")
-    frequencyDistTrackerForChamberOfSecrets = get_frequency_dist_tracker(
-        tokenize_harry_potter_book_chamber_of_secrets())
+    frequencyDistTrackerForChamberOfSecrets = get_frequency_dist_tracker(tokenize_harry_potter_book_chamber_of_secrets())
+    print("Entropy of characters from \"Chamber of Secrets\": " + str(entropy(frequencyDistTrackerForChamberOfSecrets)))
     graph_frequency_dist(frequencyDistTrackerForChamberOfSecrets)
     perform_huffman_coding(frequencyDistTrackerForChamberOfSecrets)
-    print("Entropy of characters from \"Chamber of Secrets\": " + str(entropy(frequencyDistTrackerForChamberOfSecrets)))
 
 
 main()
