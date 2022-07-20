@@ -90,15 +90,14 @@ def get_regex_for_all_characters():
     return regexForAllCharacterNames[:-1]
 
 
-def get_huffman_encodings_for_symbols(huffmanTreeNode, binaryCode):
+def print_huffman_encodings_for_symbols(huffmanTreeNode, binaryCode):
     if huffmanTreeNode.left is not None:
-        get_huffman_encodings_for_symbols(huffmanTreeNode.left, binaryCode + "0")
+        print_huffman_encodings_for_symbols(huffmanTreeNode.left, binaryCode + "0")
     if huffmanTreeNode.right is not None:
-        get_huffman_encodings_for_symbols(huffmanTreeNode.right, binaryCode + "1")
-
+        print_huffman_encodings_for_symbols(huffmanTreeNode.right, binaryCode + "1")
     if huffmanTreeNode.left is None and huffmanTreeNode.right is None:
         print("Binary for Symbol " + huffmanTreeNode.symbol +
-              " with probability " + str(huffmanTreeNode.probabilitySum * 100.0) + "%" +
+              " with probability " + str(round(huffmanTreeNode.probabilitySum * 100.0, 2)) + "%" +
               " is: " + binaryCode)
     return
 
@@ -106,7 +105,7 @@ def get_huffman_encodings_for_symbols(huffmanTreeNode, binaryCode):
 def perform_huffman_coding(descendingFreqDistributionTracker):
     huffmanLeafNodes = descendingFreqDistributionTracker.convert_to_huffman_leaf_nodes()
     huffmanTree = build_huffman_encoding_tree(huffmanLeafNodes)
-    get_huffman_encodings_for_symbols(huffmanTree[0], "")
+    print_huffman_encodings_for_symbols(huffmanTree[0], "")
 
     return "listOfEncodingsForEachSymbol"
 
@@ -132,14 +131,17 @@ def build_huffman_encoding_tree(huffmanLeafNodes):
 
 
 def main():
+    print("******************************* Philosophers Stone Data *******************************")
     frequencyDistTrackerForPhilosopherStone = get_frequency_dist_tracker(tokenize_harry_potter_book_philosopher_stone())
     graph_frequency_dist(frequencyDistTrackerForPhilosopherStone)
     perform_huffman_coding(frequencyDistTrackerForPhilosopherStone)
     print("Entropy of characters from \"Philosophers Stone\": " + str(entropy(frequencyDistTrackerForPhilosopherStone)))
 
+    print("\n******************************* Chamber of Secrets Data *******************************")
     frequencyDistTrackerForChamberOfSecrets = get_frequency_dist_tracker(
         tokenize_harry_potter_book_chamber_of_secrets())
     graph_frequency_dist(frequencyDistTrackerForChamberOfSecrets)
+    perform_huffman_coding(frequencyDistTrackerForChamberOfSecrets)
     print("Entropy of characters from \"Chamber of Secrets\": " + str(entropy(frequencyDistTrackerForChamberOfSecrets)))
 
 
