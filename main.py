@@ -151,6 +151,31 @@ def build_huffman_encoding_tree(huffmanLeafNodes):
     return huffmanTree
 
 
+def find_relationship_between_names(fDTForPhilosopherStone, fDTForChamberOfSecrets):
+    distinctNames = list(set(fDTForPhilosopherStone.names + fDTForChamberOfSecrets.names))
+    numOfDistinctNames = distinctNames.__len__()
+    jointProbabilityMatrix = [[0]*numOfDistinctNames]*numOfDistinctNames
+
+    xIndex = 0
+    yIndex = 0
+    for name1 in distinctNames:
+        yIndex = 0
+        for name2 in distinctNames:
+            indexForNameOneInPS = fDTForPhilosopherStone.names.index(name1) if name1 in fDTForPhilosopherStone.names else -1
+            indexForNameTwoInCOS = fDTForChamberOfSecrets.names.index(name2) if name2 in fDTForChamberOfSecrets.names else -1
+            foundIndexForPS = indexForNameOneInPS != -1
+            foundIndexForCOS = indexForNameTwoInCOS != -1
+            probabilityOfName1InPS = fDTForPhilosopherStone.probs[indexForNameOneInPS] if foundIndexForPS else 0
+            probabilityOfName2InCOS = fDTForChamberOfSecrets.probs[indexForNameTwoInCOS] if foundIndexForCOS else 0
+            jointProbabilityMatrix[xIndex][yIndex] = probabilityOfName1InPS * probabilityOfName2InCOS
+            yIndex = yIndex + 1
+        xIndex = xIndex + 1
+
+    print(jointProbabilityMatrix)
+
+    return
+
+
 def main():
 
     print("******************************* Philosophers Stone Data *******************************")
@@ -164,6 +189,8 @@ def main():
     print("Entropy of characters from \"Chamber of Secrets\": " + str(entropy(frequencyDistTrackerForChamberOfSecrets)))
     graph_frequency_dist(frequencyDistTrackerForChamberOfSecrets)
     perform_huffman_coding(frequencyDistTrackerForChamberOfSecrets)
+
+    find_relationship_between_names(frequencyDistTrackerForPhilosopherStone, frequencyDistTrackerForChamberOfSecrets)
 
 
 main()
