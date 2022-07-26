@@ -66,6 +66,17 @@ def test_class_freqdisttracker_huffman_node_conversion():
     assert probs.__eq__(huffmanProbs)
 
 
+def test_class_freqdisttracker_get_prob_of_name():
+    names = ["Ryan", "Saul", "Jacob", "Jean"]
+    probs = [.35, .25, .20, .20]
+
+    freqDistTracker = main.FreqDistTracker(names, probs)
+
+    assert freqDistTracker.get_prob_of_name("Jacob").__eq__(.20)
+    assert freqDistTracker.get_prob_of_name("Saul").__eq__(.25)
+    assert freqDistTracker.get_prob_of_name("Billy Bob Joe").__eq__(0)
+
+
 def test_huffman_encoding_tree_is_valid_with_descending_frequency():
     names = ["Ryan", "Saul", "Jacob", "Jean", "Katie"]
     probs = [.35, .25, .20, .10, .10]
