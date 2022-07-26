@@ -72,9 +72,9 @@ def test_class_freqdisttracker_get_prob_of_name():
 
     freqDistTracker = main.FreqDistTracker(names, probs)
 
-    assert freqDistTracker.get_prob_of_name("Jacob").__eq__(.20)
-    assert freqDistTracker.get_prob_of_name("Saul").__eq__(.25)
-    assert freqDistTracker.get_prob_of_name("Billy Bob Joe").__eq__(0)
+    assert freqDistTracker.get_prob_of_name("Jacob") == .20
+    assert freqDistTracker.get_prob_of_name("Saul") == .25
+    assert freqDistTracker.get_prob_of_name("Billy Bob Joe") == 0
 
 
 def test_huffman_encoding_tree_is_valid_with_descending_frequency():

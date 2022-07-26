@@ -25,10 +25,10 @@ class FreqDistTracker:
         return huffmanNodeList
 
     def get_prob_of_name(self, name):
-        prob = 0
         for i in range(len(self.names)):
-            prob = self.probs[i] if self.names[i] == name else 0
-        return prob
+            if self.names[i] == name:
+                return self.probs[i]
+        return 0
 
 
 class HuffmanNode:
