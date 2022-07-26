@@ -160,24 +160,28 @@ def build_huffman_encoding_tree(huffmanLeafNodes):
 def find_relationship_between_names(fDTForPhilosopherStone, fDTForChamberOfSecrets):
     distinctNames = list(set(fDTForPhilosopherStone.names + fDTForChamberOfSecrets.names))
     numOfDistinctNames = distinctNames.__len__()
-    jointProbabilityMatrix = [[0]*numOfDistinctNames]*numOfDistinctNames
+    jointProbabilityMatrix = [[0 for x in range(numOfDistinctNames)] for y in range(numOfDistinctNames)]
 
+    marginalProbabilitiesOfXAxisPS = []
+    marginalProbabilitiesOfYAxisCOS = []
     xIndex = 0
     yIndex = 0
     for name1 in distinctNames:
+        marginalProbabilitiesOfXAxisPS.append(fDTForPhilosopherStone.get_prob_of_name(name1))
+        marginalProbabilitiesOfYAxisCOS.append(fDTForChamberOfSecrets.get_prob_of_name(name1))
         yIndex = 0
         for name2 in distinctNames:
-            indexForNameOneInPS = fDTForPhilosopherStone.names.index(name1) if name1 in fDTForPhilosopherStone.names else -1
-            indexForNameTwoInCOS = fDTForChamberOfSecrets.names.index(name2) if name2 in fDTForChamberOfSecrets.names else -1
-            foundIndexForPS = indexForNameOneInPS != -1
-            foundIndexForCOS = indexForNameTwoInCOS != -1
-            probabilityOfName1InPS = fDTForPhilosopherStone.probs[indexForNameOneInPS] if foundIndexForPS else 0
-            probabilityOfName2InCOS = fDTForChamberOfSecrets.probs[indexForNameTwoInCOS] if foundIndexForCOS else 0
+            probabilityOfName1InPS = fDTForPhilosopherStone.get_prob_of_name(name1)
+            probabilityOfName2InCOS = fDTForChamberOfSecrets.get_prob_of_name(name2)
             jointProbabilityMatrix[xIndex][yIndex] = probabilityOfName1InPS * probabilityOfName2InCOS
             yIndex = yIndex + 1
         xIndex = xIndex + 1
 
     print(jointProbabilityMatrix)
+    print("marginalProbabilitiesOfXAxisPS")
+    print(marginalProbabilitiesOfXAxisPS)
+    print("marginalProbabilitiesOfYAxisCOS")
+    print(marginalProbabilitiesOfYAxisCOS)
 
     return
 
