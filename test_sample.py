@@ -87,3 +87,33 @@ def test_huffman_encoding_tree_is_valid_with_descending_frequency():
     assert huffmanTree[0].probabilitySum == 1.0
     assert huffmanTree[0].left.left.probabilitySum == .35
     assert huffmanTree[0].right.right.right.probabilitySum == .10
+
+
+def test_craft_probability_matrix():
+    print()
+    names = ["Ryan", "Saul", "Jacob", "Jean", "Katie"]
+    probs = [.35, .25, .20, .10, .10]
+    freqDistTracker1 = main.FreqDistTracker(names, probs)
+
+    names = ["Kyle", "Saul", "Bob", "Jean", "Katie", "Kevin", "Mike"]
+    probs = [.10, .10, .15, .10, .10, .15, .30]
+    freqDistTracker2 = main.FreqDistTracker(names, probs)
+
+    distinctNames = list(set(freqDistTracker1.names + freqDistTracker2.names))
+    print(distinctNames)
+
+    probabilityMatrix = main.craft_joint_probability_matrix(distinctNames, freqDistTracker1, freqDistTracker2)
+
+    assert distinctNames.__len__() == 9
+    assert probabilityMatrix.matrix.__len__() == distinctNames.__len__()
+    for row in probabilityMatrix.matrix: assert row.__len__() == distinctNames.__len__()
+
+    marginalSum = 0
+    for value in probabilityMatrix.marginalProbForXAxis: marginalSum = value + marginalSum
+    assert pytest.approx(marginalSum) == 1
+    print(probabilityMatrix.marginalProbForXAxis)
+
+    marginalSum = 0
+    for value in probabilityMatrix.marginalProbForYAxis: marginalSum = value + marginalSum
+    assert pytest.approx(marginalSum) == 1
+    print(probabilityMatrix.marginalProbForYAxis)

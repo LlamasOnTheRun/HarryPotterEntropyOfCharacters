@@ -17,3 +17,5 @@ https://pythonguides.com/priority-queue-in-python/
 https://networkx.org/documentation/stable/index.html
 
 https://stackoverflow.com/questions/11479624/is-there-a-way-to-guarantee-hierarchical-output-from-networkx/11484144#11484144
+
+https://stackoverflow.com/questions/40887753/display-matrix-values-and-colormap

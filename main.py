@@ -45,6 +45,22 @@ class HuffmanNode:
         self.right = right
 
 
+class ProbabilityMatrix:
+    def __init__(self):
+        self.marginalProbForXAxis = None
+        self.marginalProbForYAxis = None
+        self.matrix = None
+
+    def set_marginal_prob_for_x_axis(self, marginalProbForXAxis):
+        self.marginalProbForXAxis = marginalProbForXAxis
+
+    def set_marginal_prob_for_y_axis(self, marginalProbForYAxis):
+        self.marginalProbForYAxis = marginalProbForYAxis
+
+    def set_matrix(self, matrix):
+        self.matrix = matrix
+
+
 def entropy(freqDistributionTracker):
     return -sum(p * math.log(p, 2) for p in freqDistributionTracker.probs)  # Calculates entropy for set
 
@@ -157,48 +173,56 @@ def build_huffman_encoding_tree(huffmanLeafNodes):
     return huffmanTree
 
 
-def find_relationship_between_names(fDTForPhilosopherStone, fDTForChamberOfSecrets):
-    distinctNames = list(set(fDTForPhilosopherStone.names + fDTForChamberOfSecrets.names))
+def craft_joint_probability_matrix(distinctNames, xAxisFDT, yAxisFDT):
     numOfDistinctNames = distinctNames.__len__()
     jointProbabilityMatrix = [[0 for x in range(numOfDistinctNames)] for y in range(numOfDistinctNames)]
 
     marginalProbabilitiesOfXAxisPS = []
     marginalProbabilitiesOfYAxisCOS = []
     xIndex = 0
-    yIndex = 0
     for name1 in distinctNames:
-        marginalProbabilitiesOfXAxisPS.append(fDTForPhilosopherStone.get_prob_of_name(name1))
-        marginalProbabilitiesOfYAxisCOS.append(fDTForChamberOfSecrets.get_prob_of_name(name1))
+        marginalProbabilitiesOfXAxisPS.append(xAxisFDT.get_prob_of_name(name1))
+        marginalProbabilitiesOfYAxisCOS.append(yAxisFDT.get_prob_of_name(name1))
         yIndex = 0
         for name2 in distinctNames:
-            probabilityOfName1InPS = fDTForPhilosopherStone.get_prob_of_name(name1)
-            probabilityOfName2InCOS = fDTForChamberOfSecrets.get_prob_of_name(name2)
+            probabilityOfName1InPS = xAxisFDT.get_prob_of_name(name1)
+            probabilityOfName2InCOS = yAxisFDT.get_prob_of_name(name2)
             jointProbabilityMatrix[xIndex][yIndex] = probabilityOfName1InPS * probabilityOfName2InCOS
             yIndex = yIndex + 1
         xIndex = xIndex + 1
 
-    print(jointProbabilityMatrix)
-    print("marginalProbabilitiesOfXAxisPS")
-    print(marginalProbabilitiesOfXAxisPS)
-    print("marginalProbabilitiesOfYAxisCOS")
-    print(marginalProbabilitiesOfYAxisCOS)
+    probabilityMatrix = ProbabilityMatrix()
+    probabilityMatrix.set_matrix(jointProbabilityMatrix)
+    probabilityMatrix.set_marginal_prob_for_x_axis(marginalProbabilitiesOfXAxisPS)
+    probabilityMatrix.set_marginal_prob_for_y_axis(marginalProbabilitiesOfYAxisCOS)
+
+    return probabilityMatrix
+
+
+def find_relationship_between_names(fDTForPhilosopherStone, fDTForChamberOfSecrets):
+    distinctNames = list(set(fDTForPhilosopherStone.names + fDTForChamberOfSecrets.names))
+    probabilityMatrix = craft_joint_probability_matrix(distinctNames, fDTForPhilosopherStone, fDTForChamberOfSecrets)
+
+    print("jointProbabilityMatrix: " + probabilityMatrix.matrix.__str__())
+    print("Philosophers Stone Probabilities: " + probabilityMatrix.marginalProbForXAxis.__str__())
+    print("Chamber of Secrets Probabilities: " + probabilityMatrix.marginalProbForYAxis.__str__())
 
     return
 
 
 def main():
-
     print("******************************* Philosophers Stone Data *******************************")
     frequencyDistTrackerForPhilosopherStone = get_frequency_dist_tracker(tokenize_harry_potter_book_philosopher_stone())
     print("Entropy of characters from \"Philosophers Stone\": " + str(entropy(frequencyDistTrackerForPhilosopherStone)))
-    graph_frequency_dist(frequencyDistTrackerForPhilosopherStone)
-    perform_huffman_coding(frequencyDistTrackerForPhilosopherStone)
+    # graph_frequency_dist(frequencyDistTrackerForPhilosopherStone)
+    # perform_huffman_coding(frequencyDistTrackerForPhilosopherStone)
 
     print("\n******************************* Chamber of Secrets Data *******************************")
-    frequencyDistTrackerForChamberOfSecrets = get_frequency_dist_tracker(tokenize_harry_potter_book_chamber_of_secrets())
+    frequencyDistTrackerForChamberOfSecrets = get_frequency_dist_tracker(
+        tokenize_harry_potter_book_chamber_of_secrets())
     print("Entropy of characters from \"Chamber of Secrets\": " + str(entropy(frequencyDistTrackerForChamberOfSecrets)))
-    graph_frequency_dist(frequencyDistTrackerForChamberOfSecrets)
-    perform_huffman_coding(frequencyDistTrackerForChamberOfSecrets)
+    # graph_frequency_dist(frequencyDistTrackerForChamberOfSecrets)
+    # perform_huffman_coding(frequencyDistTrackerForChamberOfSecrets)
 
     find_relationship_between_names(frequencyDistTrackerForPhilosopherStone, frequencyDistTrackerForChamberOfSecrets)
 
