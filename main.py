@@ -156,8 +156,9 @@ def perform_huffman_coding(descendingFreqDistributionTracker):
 def build_huffman_encoding_tree(huffmanLeafNodes):
     huffmanTree = copy.copy(huffmanLeafNodes)
     while len(huffmanTree) != 1:
-        rightNode = huffmanTree.pop()
         leftNode = huffmanTree.pop()
+        rightNode = huffmanTree.pop()
+
 
         newProbabilitySum = leftNode.probabilitySum + rightNode.probabilitySum
         newParentNode = HuffmanNode(str(newProbabilitySum), newProbabilitySum)
@@ -214,15 +215,15 @@ def main():
     print("******************************* Philosophers Stone Data *******************************")
     frequencyDistTrackerForPhilosopherStone = get_frequency_dist_tracker(tokenize_harry_potter_book_philosopher_stone())
     print("Entropy of characters from \"Philosophers Stone\": " + str(entropy(frequencyDistTrackerForPhilosopherStone)))
-    # graph_frequency_dist(frequencyDistTrackerForPhilosopherStone)
-    # perform_huffman_coding(frequencyDistTrackerForPhilosopherStone)
+    graph_frequency_dist(frequencyDistTrackerForPhilosopherStone)
+    perform_huffman_coding(frequencyDistTrackerForPhilosopherStone)
 
     print("\n******************************* Chamber of Secrets Data *******************************")
     frequencyDistTrackerForChamberOfSecrets = get_frequency_dist_tracker(
         tokenize_harry_potter_book_chamber_of_secrets())
     print("Entropy of characters from \"Chamber of Secrets\": " + str(entropy(frequencyDistTrackerForChamberOfSecrets)))
-    # graph_frequency_dist(frequencyDistTrackerForChamberOfSecrets)
-    # perform_huffman_coding(frequencyDistTrackerForChamberOfSecrets)
+    graph_frequency_dist(frequencyDistTrackerForChamberOfSecrets)
+    perform_huffman_coding(frequencyDistTrackerForChamberOfSecrets)
 
     find_relationship_between_names(frequencyDistTrackerForPhilosopherStone, frequencyDistTrackerForChamberOfSecrets)
 
