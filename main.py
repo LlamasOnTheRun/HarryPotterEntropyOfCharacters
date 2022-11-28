@@ -114,11 +114,11 @@ def get_regex_for_all_characters():
     return regexForAllCharacterNames[:-1]
 
 
-def print_huffman_encodings_for_symbols(huffmanTreeNode, binaryCode):
+def print_huffman_encodings(huffmanTreeNode, binaryCode):
     if huffmanTreeNode.left is not None:
-        print_huffman_encodings_for_symbols(huffmanTreeNode.left, binaryCode + "0")
+        print_huffman_encodings(huffmanTreeNode.left, binaryCode + "0")
     if huffmanTreeNode.right is not None:
-        print_huffman_encodings_for_symbols(huffmanTreeNode.right, binaryCode + "1")
+        print_huffman_encodings(huffmanTreeNode.right, binaryCode + "1")
     if huffmanTreeNode.left is None and huffmanTreeNode.right is None:
         print("Binary for Symbol " + huffmanTreeNode.symbol +
               " with probability " + str(round(huffmanTreeNode.probabilitySum * 100.0, 2)) + "%" +
@@ -142,13 +142,8 @@ def print_graph_for_huffman_tree(huffmanTreeNode, graph):
 def perform_huffman_coding(descendingFreqDistributionTracker):
     huffmanLeafNodes = descendingFreqDistributionTracker.convert_to_huffman_leaf_nodes()
     huffmanTree = build_huffman_encoding_tree(huffmanLeafNodes)
-    print_huffman_encodings_for_symbols(huffmanTree[0], "")
-    G = nx.DiGraph()
-    print_graph_for_huffman_tree(huffmanTree[0], G)
-    write_dot(G, 'test.dot')
-    pos = graphviz_layout(G, prog='dot')
-    nx.draw(G, pos, with_labels=True, arrows=True)
-    plt.show()
+    print_huffman_encodings(huffmanTree[0], "")
+    graph_huffman_tree(huffmanTree[0])
 
     return
 
@@ -158,7 +153,6 @@ def build_huffman_encoding_tree(huffmanLeafNodes):
     while len(huffmanTree) != 1:
         leftNode = huffmanTree.pop()
         rightNode = huffmanTree.pop()
-
 
         newProbabilitySum = leftNode.probabilitySum + rightNode.probabilitySum
         newParentNode = HuffmanNode(str(newProbabilitySum), newProbabilitySum)
@@ -172,6 +166,17 @@ def build_huffman_encoding_tree(huffmanLeafNodes):
         huffmanTree.insert(index + 1, newParentNode)
 
     return huffmanTree
+
+
+def graph_huffman_tree(huffmanRootNode):
+    G = nx.DiGraph()
+    print_graph_for_huffman_tree(huffmanRootNode, G)
+    write_dot(G, 'test.dot')
+    pos = graphviz_layout(G, prog='dot')
+    nx.draw(G, pos, with_labels=True, arrows=True)
+    plt.show()
+
+    return
 
 
 def craft_joint_probability_matrix(distinctNames, xAxisFDT, yAxisFDT):

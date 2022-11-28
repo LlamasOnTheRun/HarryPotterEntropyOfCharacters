@@ -16,24 +16,24 @@ def test_entropy_with_word_set_of_three_words():
 def test_list_of_harry_potter_characters():
     harryPotterCharacters = main.get_harry_potter_characters()
 
-    assert harryPotterCharacters.__len__() == 38
-    assert harryPotterCharacters.count("Harry") == 1
+    assert harryPotterCharacters.__len__() == 37
+    assert harryPotterCharacters.count("Ron") == 1
 
 
-def test_text_of_harry_potter_philosopher_stone():
+def test_text_of_ron_philosopher_stone():
     tokenizedCharacters = main.tokenize_harry_potter_book_philosopher_stone()
 
     assert tokenizedCharacters.__len__() > 0
-    assert tokenizedCharacters.count("Harry") > 10
-    assert list(set(tokenizedCharacters)).__len__() == 24
+    assert tokenizedCharacters.count("Ron") > 10
+    assert list(set(tokenizedCharacters)).__len__() == 23
 
 
-def test_text_of_harry_potter_chamber_of_secret():
+def test_text_of_ron_chamber_of_secret():
     tokenizedCharacters = main.tokenize_harry_potter_book_chamber_of_secrets()
 
     assert tokenizedCharacters.__len__() > 0
-    assert tokenizedCharacters.count("Harry") > 10
-    assert list(set(tokenizedCharacters)).__len__() == 28
+    assert tokenizedCharacters.count("Ron") > 10
+    assert list(set(tokenizedCharacters)).__len__() == 27
 
 
 def test_class_freqdisttracker_reverse():
@@ -79,14 +79,14 @@ def test_class_freqdisttracker_get_prob_of_name():
 
 def test_huffman_encoding_tree_is_valid_with_descending_frequency():
     names = ["Ryan", "Saul", "Jacob", "Jean", "Katie"]
-    probs = [.35, .25, .20, .10, .10]
+    probs = [.10, .10, .20, .25, .35]
 
     freqDistTracker = main.FreqDistTracker(names, probs)
     huffmanTree = main.build_huffman_encoding_tree(freqDistTracker.convert_to_huffman_leaf_nodes())
 
     assert huffmanTree[0].probabilitySum == 1.0
-    assert huffmanTree[0].left.left.probabilitySum == .35
-    assert huffmanTree[0].right.right.right.probabilitySum == .10
+    assert huffmanTree[0].left.left.probabilitySum == .10
+    assert huffmanTree[0].right.left.probabilitySum == .35
 
 
 def test_craft_probability_matrix():
