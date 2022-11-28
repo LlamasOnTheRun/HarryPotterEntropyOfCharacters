@@ -150,7 +150,7 @@ def perform_huffman_coding(descendingFreqDistributionTracker):
     nx.draw(G, pos, with_labels=True, arrows=True)
     plt.show()
 
-    return "listOfEncodingsForEachSymbol"
+    return
 
 
 def build_huffman_encoding_tree(huffmanLeafNodes):
@@ -225,7 +225,7 @@ def main():
     graph_frequency_dist(frequencyDistTrackerForChamberOfSecrets)
     perform_huffman_coding(frequencyDistTrackerForChamberOfSecrets)
 
-    find_relationship_between_names(frequencyDistTrackerForPhilosopherStone, frequencyDistTrackerForChamberOfSecrets)
+    # find_relationship_between_names(frequencyDistTrackerForPhilosopherStone, frequencyDistTrackerForChamberOfSecrets)
 
 
 main()
