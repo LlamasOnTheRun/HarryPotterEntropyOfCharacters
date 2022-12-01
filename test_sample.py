@@ -36,6 +36,7 @@ def test_text_of_ron_chamber_of_secret():
     assert list(set(tokenizedCharacters)).__len__() == 27
 
 
+'''
 def test_class_freqdisttracker_reverse():
     names = ["Ryan", "Saul", "Jacob", "Jean"]
     probs = [.35, .25, .20, .10]
@@ -50,6 +51,7 @@ def test_class_freqdisttracker_reverse():
     probs.reverse()
     assert reversedFreqDistTracker.names.__eq__(names) is True
     assert reversedFreqDistTracker.probs.__eq__(probs) is True
+'''
 
 
 def test_class_freqdisttracker_huffman_node_conversion():

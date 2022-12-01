@@ -12,11 +12,13 @@ class FreqDistTracker:
         self.names = names
         self.probs = probs
 
+    '''
     def reverse(self):
         newFreqDistTracker = copy.deepcopy(self)
         newFreqDistTracker.names.reverse()
         newFreqDistTracker.probs.reverse()
         return newFreqDistTracker
+    '''
 
     def convert_to_huffman_leaf_nodes(self):
         huffmanNodeList = []
@@ -148,8 +150,7 @@ def perform_huffman_coding(descendingFreqDistributionTracker):
     return
 
 
-def build_huffman_encoding_tree(huffmanLeafNodes):
-    huffmanTree = copy.copy(huffmanLeafNodes)
+def build_huffman_encoding_tree(huffmanTree):
     while len(huffmanTree) != 1:
         leftNode = huffmanTree.pop()
         rightNode = huffmanTree.pop()
