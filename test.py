@@ -27,14 +27,28 @@ results = classifier(
 )
 pprint.pprint(results)
 
-classifier = pipeline("fill-mask")
+classifier = pipeline("fill-mask") # Pretrain method of BERT
 results = classifier(
-    "Jimmy had a chance yes he really did when he was on the <mask>", top_k=2
+    "Jimmy had a chance yes he really did when he was <mask>", top_k=2
 )
 pprint.pprint(results)
 
-classifier = pipeline("fill-mask")
+classifier = pipeline(
+    "text-generation",
+    model="distilgpt2"  # Lightweight model
+)
 results = classifier(
-    "Jimmy had a chance yes he really did when he was on the <mask>", top_k=2
+    "In this course, we will go over the fundamentals of",
+    max_length=30,  # Max number of words to be generated
+    num_return_sequences=2  # Num of generated text to return
+)
+pprint.pprint(results)
+
+classifier = pipeline(
+    "ner",
+    grouped_entities=True
+)
+results = classifier(
+    "My name is Ryan Llamas. I have an interest in Natural Language Processing and Information Theory."
 )
 pprint.pprint(results)
