@@ -220,6 +220,8 @@ def find_relationship_between_names(fDTForPhilosopherStone, fDTForChamberOfSecre
 def main():
     print("******************************* Philosophers Stone Data *******************************")
     frequencyDistTrackerForPhilosopherStone = get_frequency_dist_tracker(tokenize_harry_potter_book_philosopher_stone())
+    print(frequencyDistTrackerForPhilosopherStone.names)
+    print(frequencyDistTrackerForPhilosopherStone.probs)
     print("Entropy of characters from \"Philosophers Stone\": " + str(entropy(frequencyDistTrackerForPhilosopherStone)))
     graph_frequency_dist(frequencyDistTrackerForPhilosopherStone)
     perform_huffman_coding(frequencyDistTrackerForPhilosopherStone)
