@@ -1,8 +1,9 @@
 # Full Disclosure, this is some code snippets I ran to see how to use models from Hugging Face. This has nothing
 # to do with the main program that gets Harry Potter Characters and puts them in a compressed manner
 
-from transformers import pipeline
+from transformers import pipeline, AutoTokenizer, AutoModelForSequenceClassification
 import pprint
+import torch
 
 # Performs Text Classification
 classifier = pipeline("sentiment-analysis")
@@ -63,3 +64,23 @@ pprint.pprint(results)
 classifier = pipeline("translation", model="Helsinki-NLP/opus-mt-fr-en")
 results = classifier("Ce cours est produit par Hugging Face") # French
 pprint.pprint(results)
+
+checkpoint = "distilbert-base-uncased-finetuned-sst-2-english"
+tokenizer = AutoTokenizer.from_pretrained(checkpoint)
+
+raw_inputs = [
+    "This is a cool sentence to write out!",
+    "I wonder what else I can write here."
+]
+# Tokenize
+inputs = tokenizer(raw_inputs, padding=True, truncation=True, return_tensors="pt")
+pprint.pprint(inputs)
+
+# Model
+model = AutoModelForSequenceClassification.from_pretrained(checkpoint)
+outputs = model(**inputs)
+pprint.pprint(outputs.logits)
+
+# Postprocessing
+predictions = torch.nn.functional.softmax(outputs.logits, dim=-1)
+pprint.pprint(predictions)
