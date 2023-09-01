@@ -73,13 +73,14 @@ raw_inputs = [
     "I wonder what else I can write here."
 ]
 # Tokenize
-inputs = tokenizer(raw_inputs, padding=True, truncation=True, return_tensors="pt")
+inputs = tokenizer(raw_inputs, padding=True, truncation=True, return_tensors="pt")  # Return a pytoutch tensor
 pprint.pprint(inputs)
 
 # Model
 model = AutoModelForSequenceClassification.from_pretrained(checkpoint)
 outputs = model(**inputs)
 pprint.pprint(outputs.logits)
+# pprint.pprint(outputs.last_hidden_state.shape)
 
 # Postprocessing
 predictions = torch.nn.functional.softmax(outputs.logits, dim=-1)
