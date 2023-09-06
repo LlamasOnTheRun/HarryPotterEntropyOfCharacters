@@ -4,6 +4,7 @@
 from transformers import AutoModel, BertConfig, BertModel
 
 # Each of the below is considered a checkpoint
+# The AutoModel class will find the appropriate model class based on what is used in from_pretrained(...)
 bert_model = AutoModel.from_pretrained("bert-base-cased")
 print(type(bert_model))
 
